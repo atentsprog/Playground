@@ -1,11 +1,15 @@
+Ôªøusing Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tank : MonoBehaviour
+public class Tank : MonoBehaviourPun
 {
     void Update()
     {
+        if (photonView.IsMine == false)
+            return;
+
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.UpArrow))
             move.z = 1;
@@ -18,7 +22,7 @@ public class Tank : MonoBehaviour
 
         if (move.sqrMagnitude > 0)
         {
-            // πÊ«‚.
+            // Î∞©Ìñ•.
             move.Normalize();
             transform.Translate(move * speed * Time.deltaTime, Space.World);
 
