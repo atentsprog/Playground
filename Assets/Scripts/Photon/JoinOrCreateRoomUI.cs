@@ -20,11 +20,6 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         inputField.text = userName.Value;
     }
 
-    [PunRPC]
-    void ReceiveMessage(string str)
-    {
-        Debug.Log($"네트워크에서 받은 메시지 : {str}");
-    }
 
     private void Connect()
     {
@@ -38,7 +33,6 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Connecting...");
-            PhotonNetwork.GameVersion = this.gameVersion; // 필수는 아님.
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -55,9 +49,6 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
 
 
     bool isInRoom;
-
-    [SerializeField]
-    private string gameVersion = "1";
 
     bool IsInRoom
     {
@@ -86,5 +77,21 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         // 게임 UI보여주자.
         IsInRoom = true;
         photonView.RPC(nameof(ReceiveMessage), RpcTarget.All, $"{PhotonNetwork.LocalPlayer.NickName} 방에 들어옴");
+        photonView.RPC(nameof(OnJoinMember), RpcTarget.All, PhotonNetwork.LocalPlayer);
+    }
+
+
+    [PunRPC]
+    void ReceiveMessage(string str)
+    {
+        Debug.Log($"네트워크에서 받은 메시지 : {str}");
+    }
+
+    public string tankName = "Tank";
+    [PunRPC]
+    void OnJoinMember(Player player)
+    {
+        Debug.Log($"{player.NickName}이 조정하는 탱크 생성.");
+        PhotonNetwork.Instantiate(tankName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
     }
 }
