@@ -14,8 +14,10 @@ public class Billboarding : MonoBehaviour
     Transform cameraTr;
     public Vector3 offset;
     public Transform parent;
+    Transform tr;
     void Start()
     {
+        tr = transform;
         cameraTr = Camera.main.transform;
         if(billboardingType == BillboardingType.MovePosition)
         {
@@ -28,7 +30,7 @@ public class Billboarding : MonoBehaviour
     public Vector3 angle;
     private void SetBillboard()
     {
-        if(transform == null)
+        if(tr == null || parent == null)
         {
             Destroy(gameObject);
             return;
