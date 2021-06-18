@@ -5,6 +5,20 @@ using UnityEngine;
 
 public class Tank : MonoBehaviourPun
 {
+    TextMesh nameText;
+    private void Awake()
+    {
+        nameText = GetComponentInChildren<TextMesh>();
+    }
+    private void Start()
+    {
+        if (photonView != null && photonView.Owner != null)
+        {
+            nameText.text = photonView.Owner.NickName;
+            name = "Tank_" + nameText.text;
+        }
+    }
+
     void Update()
     {
         if (photonView.IsMine == false)
