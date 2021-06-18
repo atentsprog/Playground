@@ -77,7 +77,7 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         // 게임 UI보여주자.
         IsInRoom = true;
         photonView.RPC(nameof(ReceiveMessage), RpcTarget.All, $"{PhotonNetwork.LocalPlayer.NickName} 방에 들어옴");
-        photonView.RPC(nameof(OnJoinMember), RpcTarget.All, PhotonNetwork.LocalPlayer);
+        PhotonNetwork.Instantiate(tankName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
     }
 
 
@@ -88,10 +88,4 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
     }
 
     public string tankName = "Tank";
-    [PunRPC]
-    void OnJoinMember(Player player)
-    {
-        Debug.Log($"{player.NickName}이 조정하는 탱크 생성.");
-        PhotonNetwork.Instantiate(tankName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-    }
 }
