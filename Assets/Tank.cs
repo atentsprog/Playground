@@ -2,9 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tank : MonoBehaviourPun
 {
+    TextMesh nameText;
+    private void Start()
+    {
+        if (photonView && photonView.Owner != null)
+        {
+            name = photonView.Owner.NickName;
+            nameText = GetComponentInChildren<TextMesh>();
+            nameText.text = name;
+        }
+    }
+
     void Update()
     {
         if (photonView.IsMine == false)

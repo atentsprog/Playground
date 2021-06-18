@@ -70,6 +70,8 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         Debug.Log("<Color=Red>OnDisconnected</Color> " + cause);
         IsInRoom = false;
     }
+
+    public float randomRange = 5;
     public override void OnJoinedRoom()
     {
         Debug.Log("<Color=Green>OnJoinedRoom</Color> with " + PhotonNetwork.CurrentRoom.PlayerCount + " Player(s)");
@@ -77,7 +79,8 @@ public class JoinOrCreateRoomUI : MonoBehaviourPunCallbacks
         // 게임 UI보여주자.
         IsInRoom = true;
         photonView.RPC(nameof(ReceiveMessage), RpcTarget.All, $"{PhotonNetwork.LocalPlayer.NickName} 방에 들어옴");
-        PhotonNetwork.Instantiate(tankName, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+        
+        PhotonNetwork.Instantiate(tankName, new Vector3(Random.Range(-randomRange, randomRange), 0f, Random.Range(-randomRange, randomRange)), Quaternion.identity, 0);
     }
 
 
